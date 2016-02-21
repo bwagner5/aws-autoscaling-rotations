@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>AWS Resilience - Brandon Wagner</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p th:text="'Running on Instance: ' + ${instanceId}" />
+
+<table>
+    <thead>
+        <tr>
+            <td>File Name</td>
+            <td>File Size</td>
+            <td>Last Modified</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="file : ${fileList}">
+            <td> <a th:href="@{/download/{fileName}(fileName=${file.name})}" th:text="${file.name}"></a></td>
+            <td> <a th:href="@{/download/{fileName}(fileName=${file.name})}" th:text="${file.size}"></a></td>
+            <td> <a th:href="@{/download/{fileName}(fileName=${file.name})}" th:text="${file.lastModified}"></a></td>
+        </tr>
+
+    </tbody>
+</table>
+</body>
+</html>
