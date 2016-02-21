@@ -4,11 +4,15 @@ import groovy.io.FileType
 import groovy.util.logging.Log
 import org.apache.commons.io.FileUtils
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestParam
 
 import javax.servlet.http.HttpServletResponse
 
@@ -34,10 +38,16 @@ class DownloadController {
     @RequestMapping(value = "/download/{file_name:.+}", method = RequestMethod.GET)
     public void getFile(
             @PathVariable("file_name") String fileName,
+            @RequestHeader Map<String, String> headers,
             HttpServletResponse response) {
         try {
             File file = new File(downloadDir + File.separator + fileName)
             InputStream is = FileUtils.openInputStream(file)
+            println headers
+            if(headers.range){
+                println headers.range.replace('bytes=', '')
+                is.skip(Long.valueOf(headers.range.replace('bytes=', '').split('-')[0]))
+            }
             org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
             response.flushBuffer();
         } catch (IOException ex) {

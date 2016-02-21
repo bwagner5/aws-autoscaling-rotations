@@ -1,5 +1,6 @@
 package edu.gmu.cs
 
+import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+@CompileStatic
 @Controller
 public class FileUploadController {
 
@@ -30,20 +32,40 @@ public class FileUploadController {
     @RequestMapping(value="/upload", method=RequestMethod.POST)
     public @ResponseBody String handleFileUpload(@RequestParam("file") MultipartFile file){
         String name = file.originalFilename
-        if (!file.isEmpty()) {
-            try {
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new File(UPLOAD_DIR + File.separator + name)));
-                stream.write(bytes);
-                stream.close();
-                return "You successfully uploaded " + name + "!";
-            } catch (Exception e) {
-                return "You failed to upload " + name + " => " + e.getMessage();
-            }
-        } else {
-            return "You failed to upload " + name + " because the file was empty.";
+        File fileToUpload = new File(UPLOAD_DIR + File.separator + name)
+        return "${file.transferTo(fileToUpload)}"
+
+//        if (!file.isEmpty()) {
+//            try {
+//                BufferedOutputStream stream =
+//                        new BufferedOutputStream(new FileOutputStream(fileToUpload));
+//                BufferedInputStream input = new BufferedInputStream(file.inputStream)
+//
+//                while(input.read(buffer)){
+//                    stream.write(buffer)
+//                }
+//                stream.close()
+//                input.close()
+//                return "You successfully uploaded " + name + "!";
+//            } catch (Exception e) {
+//                return "You failed to upload " + name + " => " + e.getMessage();
+//            }
+//        } else {
+//            return "You failed to upload " + name + " because the file was empty.";
+//        }
+    }
+
+    public void replicate(List<String> hosts){
+
+        List<Thread> replicationThreads = []
+        hosts.each { String host ->
+            replicationThreads.add(
+                    new Thread({
+
+                    })
+            )
         }
+
     }
 
 }
