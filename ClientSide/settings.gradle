@@ -16,4 +16,5 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'resilience-aws'
+rootProject.name = 'resilience-aws-client-side'
+
