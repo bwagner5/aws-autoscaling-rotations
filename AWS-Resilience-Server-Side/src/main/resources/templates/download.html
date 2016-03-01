@@ -16,10 +16,10 @@
         </tr>
     </thead>
     <tbody>
-        <tr th:each="file : ${fileList}">
-            <td> <a th:href="@{/download/{fileName}(fileName=${file.name})}" th:text="${file.name}"></a></td>
-            <td> <a th:href="@{/download/{fileName}(fileName=${file.name})}" th:text="${file.size}"></a></td>
-            <td> <a th:href="@{/download/{fileName}(fileName=${file.name})}" th:text="${file.lastModified}"></a></td>
+        <tr th:each="file : ${objectList}">
+            <td> <a th:href="@{https://s3.amazonaws.com/cs779/{fileName}(fileName=${file.getKey()})}" th:text="${file.getKey()}"></a></td>
+            <td> <a th:href="@{https://s3.amazonaws.com/cs779/{fileName}(fileName=${file.getKey()})}" th:text="${file.getSize()}"></a></td>
+            <td> <a th:href="@{https://s3.amazonaws.com/cs779/{fileName}(fileName=${file.getKey()})}" th:text="${file.getLastModified()}"></a></td>
         </tr>
 
     </tbody>

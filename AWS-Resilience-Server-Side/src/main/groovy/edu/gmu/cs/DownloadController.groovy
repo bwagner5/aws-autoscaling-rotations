@@ -1,5 +1,9 @@
 package edu.gmu.cs
 
+import com.amazonaws.auth.profile.ProfileCredentialsProvider
+import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.services.s3.model.ObjectListing
+import com.amazonaws.services.s3.model.S3ObjectSummary
 import groovy.io.FileType
 import groovy.util.logging.Log
 import org.apache.commons.io.FileUtils
@@ -22,6 +26,12 @@ class DownloadController {
 
     @Value('${upload.location}')
     protected String downloadDir
+
+    @Value('${cloud.aws.credentials.accessKey}')
+    private String awsAccessKey
+
+    @Value('${cloud.aws.credentials.secretKey}')
+    private String aws_secret_key
 
     @RequestMapping(value = '/download', method = RequestMethod.GET)
     public String fileListing(Model model){
@@ -55,6 +65,14 @@ class DownloadController {
             throw new RuntimeException("IOError writing file to output stream");
         }
 
+    }
+
+    @RequestMapping(value = '/s3download', method = RequestMethod.GET)
+    public String s3FileListing(Model model){
+        AmazonS3Client s3 = new AmazonS3Client(new ProfileCredentialsProvider('gmu'))
+        ObjectListing objectList = s3.listObjects('cs779')
+        model.addAttribute('objectList', objectList.objectSummaries)
+        return 'download'
     }
 
 }

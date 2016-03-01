@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Title</title>
+</head>
+<body>
+
+    <form action="https://cs779.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
+
+        <input type="hidden" name="key" value="${filename}" />
+        <input type="hidden" name="AWSAccessKeyId" th:value="${accessKeyId}" />
+        <input type="hidden" name="acl" value="public-read" />
+        <input type="hidden" name="success_action_redirect" value="http://localhost/" />
+        <input type="hidden" name="policy" th:value="${policy}" />
+        <input type="hidden" name="signature" th:value="${signature}" />
+        <!-- Include any additional input fields here -->
+
+        File to upload to S3:
+        <input name="file" type="file" />
+        <br />
+        <input type="submit" value="Upload File" />
+    </form>
+
+
+</body>
+</html>
