@@ -11,7 +11,7 @@
         <input type="hidden" name="key" value="${filename}" />
         <input type="hidden" name="AWSAccessKeyId" th:value="${accessKeyId}" />
         <input type="hidden" name="acl" value="public-read" />
-        <input type="hidden" name="success_action_redirect" value="http://localhost:8081/s3download" />
+        <input type="hidden" name="success_action_redirect" th:value="${success_action_redirect}" />
         <input type="hidden" name="policy" th:value="${policy}" />
         <input type="hidden" name="signature" th:value="${signature}" />
         <!-- Include any additional input fields here -->
@@ -24,4 +24,4 @@
 
 
 </body>
-</html>d
+</html>

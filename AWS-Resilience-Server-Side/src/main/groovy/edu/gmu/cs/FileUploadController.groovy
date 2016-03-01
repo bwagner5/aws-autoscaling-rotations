@@ -53,13 +53,14 @@ public class FileUploadController {
     @Value('${cloud.aws.credentials.secretKey}')
     private String aws_secret_key
 
+    private String redirectString = 'http://s3resilience.brandonwagner.info'
 
     private final String POLICY = """{"expiration": "2017-01-01T00:00:00Z",
   "conditions": [
     {"bucket": "cs779"},
     ["starts-with", "\$key", ""],
     {"acl": "public-read"},
-    {"success_action_redirect": "http://localhost:8081/s3download"},
+    {"success_action_redirect": "$redirectString"},
     ["content-length-range", 0, 100048576]
   ]
 }"""
@@ -83,6 +84,7 @@ public class FileUploadController {
         model.addAttribute('policy', new BASE64Encoder().encode(POLICY.getBytes("UTF-8")).replaceAll('\n', '').replaceAll('\r',''))
         model.addAttribute('accessKeyId', awsAccessKey)
         model.addAttribute('signature', getSignature())
+        model.addAttribute('success_action_redirect', redirectString)
         return 'uploadS3'
     }
 
