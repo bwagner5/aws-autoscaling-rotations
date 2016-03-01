@@ -69,12 +69,7 @@ class DownloadController {
 
     @RequestMapping(value = '/s3download', method = RequestMethod.GET)
     public String s3FileListing(Model model){
-        AmazonS3Client s3
-        try{
-            s3 = new AmazonS3Client(new ProfileCredentialsProvider('gmu'))
-        }catch(Exception e){
-            s3 = new AmazonS3Client()
-        }
+        AmazonS3Client s3 = new AmazonS3Client()
         ObjectListing objectList = s3.listObjects('cs779')
         model.addAttribute('objectList', objectList.objectSummaries)
         return 'download'
