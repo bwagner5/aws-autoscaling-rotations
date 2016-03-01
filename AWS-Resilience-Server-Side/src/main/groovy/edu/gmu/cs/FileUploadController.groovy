@@ -59,8 +59,8 @@ public class FileUploadController {
     {"bucket": "cs779"},
     ["starts-with", "\$key", ""],
     {"acl": "public-read"},
-    {"success_action_redirect": "http://localhost/"},
-    ["content-length-range", 0, 1048576]
+    {"success_action_redirect": "http://localhost:8081/s3download"},
+    ["content-length-range", 0, 100048576]
   ]
 }"""
 
